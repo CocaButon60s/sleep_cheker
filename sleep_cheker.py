@@ -63,7 +63,7 @@ while True:
         start = datetime.now()
 
     # 5分以上動きがなかった
-    if (now - start >= timedelta(seconds=10)):
+    if (now - start >= timedelta(minutes=5)):
         # 音を鳴らす
         alerm()
         sleep(3)
