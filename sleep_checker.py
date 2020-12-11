@@ -36,7 +36,7 @@ class TimeMng():
 def alerm(f):
     print("alerm")
     # 音量調整
-    subprocess.call("tools\SetVol\SetVol.exe 18", shell=True)
+    subprocess.call("tools\Volume.ps1", shell=True)
     while True:
         winsound.Beep(f, 1000)
         k = cv2.waitKey(1000)
