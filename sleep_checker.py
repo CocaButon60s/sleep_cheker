@@ -14,27 +14,19 @@ class Chattering():
         self.__buf[self.__p] = val
         self.__p = self.__p + 1 if self.__p + 1 < len(self.__buf) else 0
 
-    def is_allTrue(self):
-        return False not in self.__buf
+    def is_allTrue(self): return False not in self.__buf
 
 # 経過時間管理
 class TimeMng():
-    def __init__(self):
-        self.__start = None
-    
-    def update(self):
-        self.__start = datetime.now()
-
-    def get_timedelta(self, now: datetime) -> timedelta:
-        return now - self.__start
-
+    def __init__(self): self.__start = None
+    def update(self): self.__start = datetime.now()
+    def get_timedelta(self, now: datetime) -> timedelta: return now - self.__start
     def is_over(self, now: datetime) -> bool:
         # 5分以上動きがなかった
         if (now - self.__start >= timedelta(minutes=5)): return True
         return False
 
 def alerm(f):
-    print("alerm")
     # 音量調整
     subprocess.call("tools\Volume.ps1", shell=True)
     while True:
@@ -44,7 +36,7 @@ def alerm(f):
         if k == 27: break
     sleep(3)
 
-if __name__ == "__main__":
+def main():
     move_info = Chattering()
     timer = TimeMng()
     cap = cv2.VideoCapture(0)
@@ -55,8 +47,7 @@ if __name__ == "__main__":
         ret, frame = cap.read()
         # フレーム取得できなかったらエラーと判断
         if not ret:
-            print("ret is None")
-            alerm(880)
+            cap = cv2.VideoCapture(0)
             continue
 
         # グレースケールに変換
@@ -77,10 +68,8 @@ if __name__ == "__main__":
         cv2.imshow("thresh", thresh)
 
         cnt = cv2.countNonZero(thresh)
-        if cnt > 500:
-            move_info.add(True)
-        else:
-            move_info.add(False)
+        if cnt > 500: move_info.add(True)
+        else: move_info.add(False)
 
         now = datetime.now()
         # 動いた！
@@ -103,3 +92,6 @@ if __name__ == "__main__":
 
     cap.release()
     cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
