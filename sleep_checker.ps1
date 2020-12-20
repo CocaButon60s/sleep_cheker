@@ -1,2 +1,1 @@
-pipenv shell
-python .\sleep_checker.py
+pipenv run python sleep_checker.py
