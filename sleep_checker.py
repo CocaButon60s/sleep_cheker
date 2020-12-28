@@ -5,15 +5,13 @@ from datetime import datetime, timedelta
 from time import sleep
 
 # チャタ用
-class Chattering():
+class History():
     def __init__(self):
         self.__buf = [False, False, False]
         self.__p = 0
-    
     def add(self, val):
         self.__buf[self.__p] = val
         self.__p = self.__p + 1 if self.__p + 1 < len(self.__buf) else 0
-
     def is_allTrue(self): return False not in self.__buf
 
 # 経過時間管理
@@ -37,7 +35,7 @@ def alerm(f):
     sleep(3)
 
 def main():
-    move_info = Chattering()
+    move_info = History()
     timer = TimeMng()
     cap = cv2.VideoCapture(0)
     avg = None
